@@ -8,6 +8,7 @@ import hello.core.member.MemberService;
 import hello.core.member.MemberServiceImpl;
 import hello.core.member.MemoryMemberRepository;
 import hello.core.order.OrderService;
+
 import hello.core.order.OrderServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,17 +17,20 @@ import org.springframework.context.annotation.Configuration;
 public class AppConfig {
   @Bean
   public MemberService memberService() {
-    return new MemberServiceImpl(MemberRepository());
+    System.out.println("#########  AppConfig.memberService");
+    return new MemberServiceImpl(memberRepository());
   }
 
   @Bean
-  public MemberRepository MemberRepository() {
+  public MemberRepository memberRepository() {
+    System.out.println("#########  AppConfig.memberService");
     return new MemoryMemberRepository();
   }
 
   @Bean
   public OrderService orderService() {
-    return new OrderServiceImpl(MemberRepository(), discountPolicy());
+    System.out.println("#########  AppConfig.memberService");
+    return new OrderServiceImpl(memberRepository(), discountPolicy());
   }
 
   @Bean
