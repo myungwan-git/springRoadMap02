@@ -5,8 +5,12 @@ import hello.core.discount.FixDiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
 import hello.core.member.MemoryMemberRepository;
+import jdk.nashorn.internal.runtime.JSErrorType;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-public class OrderServiceImpl implements  OrderService {
+@Component
+public class OrderServiceImpl implements OrderService {
 
   //private final MemberRepository memberRepository = new MemoryMemberRepository();
   private final MemberRepository memberRepository;
@@ -16,7 +20,12 @@ public class OrderServiceImpl implements  OrderService {
   //private final DiscountPolicy discountPolicy = new FixDiscountPolicy();
   private final DiscountPolicy discountPolicy;
 
+
+  @Autowired
   public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+    System.out.println("memberRepository = " + memberRepository);
+    System.out.println("discountPolicy = " + discountPolicy);
+
     this.memberRepository = memberRepository;
     this.discountPolicy = discountPolicy;
   }
@@ -24,7 +33,7 @@ public class OrderServiceImpl implements  OrderService {
   @Override
   public Order createOrder(Long memberId, String itemName, int itemPrice) {
     Member member = memberRepository.findById(memberId);
-    int discountPrice = discountPolicy.discount(member,itemPrice);
+    int discountPrice = discountPolicy.discount(member, itemPrice);
 
     return new Order(memberId, itemName, itemPrice, discountPrice);
   }
